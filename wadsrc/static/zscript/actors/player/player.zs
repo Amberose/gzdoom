@@ -630,6 +630,24 @@ class PlayerPawn : Actor
 		}
 	}
 
+	//===========================================================================
+	//
+	// Moves the player up and down when flying, code here should only affect the
+	// player's z position
+	//
+	//===========================================================================
+
+	virtual void PlayerFlyBob ()
+	{
+		if (bNoGravity && (pos.Z > floorz))
+		{
+			if (player.cheats & CF_NOCLIP2 != CF_NOCLIP2)
+			{
+				AddZ(Sin(4.5 * Level.maptime) / 8);
+			}
+		}
+	}
+
 
 	//==========================================================================
 	//

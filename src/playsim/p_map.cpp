@@ -2053,9 +2053,11 @@ void P_FakeZMovement(AActor *mo)
 				mo->AddZ(mo->FloatSpeed);
 		}
 	}
-	if (mo->player && mo->flags&MF_NOGRAVITY && (mo->Z() > mo->floorz) && !mo->IsNoClip2())
+
+	IFVIRTUALPTRNAME(mo, NAME_PlayerPawn, PlayerFlyBob)
 	{
-		mo->AddZ(DAngle(4.5 * mo->Level->maptime).Sin());
+		VMValue param = mo;
+		VMCall(func, &param, 1, nullptr, 0);
 	}
 
 	//

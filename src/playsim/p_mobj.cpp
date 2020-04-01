@@ -2484,18 +2484,18 @@ void P_ZMovement (AActor *mo, double oldfloorz)
 				mo->AddZ(mo->FloatSpeed);
 		}
 	}
-	if (mo->player && (mo->flags & MF_NOGRAVITY) && (mo->Z() > mo->floorz))
+		
+	IFVIRTUALPTRNAME(mo, NAME_PlayerPawn, PlayerFlyBob)
 	{
-		if (!mo->IsNoClip2())
-		{
-			mo->AddZ(DAngle(360 / 80.f * mo->Level->maptime).Sin() / 8);
-		}
+		VMValue param = mo;
+		VMCall(func, &param, 1, nullptr, 0);
 
-		if (!(mo->flags8 & MF8_NOFRICTION))
+		if ((mo->flags & MF_NOGRAVITY) && (mo->Z() > mo->floorz) && !(mo->flags8 & MF8_NOFRICTION))
 		{
 			mo->Vel.Z *= FRICTION_FLY;
 		}
 	}
+
 	if (mo->waterlevel && !(mo->flags & MF_NOGRAVITY) && !(mo->flags8 & MF8_NOFRICTION))
 	{
 		double friction = -1;
